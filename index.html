@@ -1,0 +1,1862 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>reveal.js</title>
+
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/serif.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+  <!-- Style overrides -->
+  <style>
+    img {
+      max-width: 400px !important;
+      max-height: 400px !important;
+      margin-top: -5px !important;
+    }
+
+    h3,
+    h4,
+    h5,
+    h6 {
+      text-align: left;
+    }
+
+    div h5 {
+      text-align: center;
+    }
+
+    p {
+      font-size: 1.7rem;
+    }
+
+    sup {
+      font-size: small;
+    }
+
+    /* Cycling colors for subsequent marks */
+    mark {
+      counter-increment: mark-counter;
+      position: relative;
+      white-space: normal;
+      display: inline-block;
+    }
+
+    mark:nth-child(5n+1) {
+      /* Yellow */
+      background: #ffeb3b;
+    }
+
+    mark:nth-child(5n+2) {
+      /* Green */
+      background: #a5d6a7;
+    }
+
+    mark:nth-child(5n+3) {
+      /* Blue */
+      background: #90caf9;
+    }
+
+    mark:nth-child(5n+4) {
+      /* Pink */
+      background: #f48fb1;
+    }
+
+    mark:nth-child(5n+5) {
+      /* Purple */
+      background: #ce93d8;
+    }
+
+    .horizontal-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .text-container {
+      /* Must be 1.5 or it shifts */
+      font-size: 1.5rem;
+      text-align: justify;
+    }
+
+    .inactive {
+      color: #B7BCC4;
+    }
+
+    .active {
+      color: black;
+    }
+
+    .exp {
+      position: absolute;
+      background: #f8f9fa;
+      border: 3px solid #000000;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      padding: 8px;
+      width: max-content;
+      max-width: 200px;
+      /* Keep same as p */
+      font-size: 1.7rem;
+      z-index: 100;
+      text-align: left;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.4;
+    }
+
+    .exp.top-left {
+      bottom: 100%;
+      right: 100%;
+      margin-bottom: 5px;
+      margin-right: 5px;
+    }
+
+    .exp.top-right {
+      bottom: 100%;
+      left: 100%;
+      margin-bottom: 5px;
+      margin-left: 5px;
+    }
+
+    .exp.bottom-left {
+      top: 100%;
+      right: 100%;
+      margin-top: 5px;
+      margin-right: 5px;
+    }
+
+    .exp.bottom-right {
+      top: 100%;
+      left: 100%;
+      margin-top: 5px;
+      margin-left: 5px;
+    }
+
+    /* Line settings */
+    .exp::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 3px;
+      background: #000000;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .exp.top-left::after {
+      bottom: -12px;
+      right: -12px;
+      transform: rotate(45deg);
+      transform-origin: bottom right;
+    }
+
+    .exp.top-right::after {
+      bottom: -12px;
+      left: -12px;
+      transform: rotate(-45deg);
+      transform-origin: bottom left;
+    }
+
+    .exp.bottom-left::after {
+      top: -12px;
+      right: -12px;
+      transform: rotate(-45deg);
+      transform-origin: top right;
+    }
+
+    .exp.bottom-right::after {
+      top: -12px;
+      left: -12px;
+      transform: rotate(45deg);
+      transform-origin: top left;
+    }
+
+    .columns {
+      display: flex;
+    }
+
+    .two-columns {
+      display: flex;
+    }
+
+    .col {
+      flex: 1;
+    }
+
+    li {
+      font-size: 1.6rem;
+    }
+
+    .two-columns li {
+      font-size: 1.2rem;
+      text-align: left;
+      padding-left: 0.7rem;
+      padding-bottom: 0.7rem;
+    }
+
+    .two-columns .col:nth-child(1) {
+      margin-right: 8px;
+    }
+
+    .two-columns .col:nth-child(2) {
+      margin-left: 8px;
+    }
+
+
+    .four-by-four {
+      display: grid !important;
+      grid-template-columns: repeat(2, 400px) !important;
+      grid-template-rows: repeat(2, 200px) !important;
+      grid-gap: 1rem !important;
+      padding: 0.5rem !important;
+    }
+
+    .four-by-four-data {
+      padding: 1rem !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: flex-start !important;
+      align-items: flex-start !important;
+      gap: 0.125rem !important;
+      border: 1px solid #eaeaea !important;
+      border-radius: 4px !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- INTRO -->
+      <section>
+        <section data-auto-animate>
+          <h1>Attention Is All You Need</h1>
+        </section>
+        <section data-auto-animate>
+          <h1>Attention Is All You Need</h1>
+          <h3 style="text-align: center">Understanding the Abstract<sup>*</sup></h3>
+        </section>
+        <section data-auto-animate>
+          <h1>Attention Is All You Need</h1>
+          <h3 style="text-align: center">Understanding the Abstract<sup>*</sup></h3>
+          <h5 style="font-size: medium">Devin Lim, Jesse Loi</h5>
+        </section>
+      </section>
+
+      <!-- WHAT THIS PRESENTATION IS ABOUT -->
+      <section>
+        <section data-auto-animate>
+          <h3 style="text-align: center">What this presentation is and isn't</h3>
+        </section>
+        <section data-auto-animate>
+          <h3 style="border-bottom: 2px solid #333; padding-bottom: 10px; text-align: center;">What this presentation is
+            and isn't</h3>
+          <div style="height:700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3 style="border-bottom: 2px solid #333; padding-bottom: 10px; text-align: center;">What this presentation is
+            and isn't</h3>
+          <div style="height: 60px"></div>
+          <div class="two-columns">
+            <div class="col">
+              <h5>IS</h5>
+              <ul>
+                <li class="fragment fade-up">Provide background that you need to contextualize this paper</li>
+                <li class="fragment fade-up">Understand what "Attention" is</li>
+                <li class="fragment fade-up">Understand why "Attention"</li>
+                <li class="fragment fade-up">Understand what "Transformer" is</li>
+                <li class="fragment fade-up">Understand why "Transformer"</li>
+                <li class="fragment fade-up">Understand why "Attention" is "All You Need"</li>
+              </ul>
+            </div>
+            <div class="col">
+              <h5 class="fragment">ISN'T</h5>
+              <ul>
+                <li class="fragment fade-up">An implementation deep dive</li>
+                <li class="fragment fade-up">A math deep dive</li>
+                <li class="fragment fade-up">An introduction to neural networks, activation functions, and vectors</li>
+              </ul>
+            </div>
+          </div>
+          <div style="height: 100px;"></div>
+          <p class="fragment fade-right" style="text-align: left;">By the end of this presentation, you will
+            be able to understand the
+            abstract<sup>*</sup>
+          </p>
+          <p class="fragment fade-right" style="font-size: small; text-align: left; margin-top: -10px"><sup>*</sup>and
+            hopefully more</p>
+          <div style="height: 700px"></div>
+        </section>
+      </section>
+
+      <!-- ABSTRACT INTRO -->
+      <section>
+        <!-- PART 1 -->
+        <section data-auto-animate>
+          <h3>The Abstract</h3>
+          <p class="text-container">
+          </p>
+        </section>
+
+        <section data-auto-animate>
+          <h3>The Abstract</h3>
+          <p class="text-container">
+            The dominant sequence transduction models are based on complex recurrent or
+            convolutional neural networks that include an encoder and a decoder. The best performing models also
+            connect
+            the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the
+            Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely.
+          </p>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> transduction models are based on complex
+            recurrent or convolutional neural networks that include an encoder and a decoder. The best performing
+            models
+            also connect the encoder and decoder through an attention mechanism. We propose a new simple network
+            architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and
+            convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark> are based on complex
+            recurrent or convolutional neural networks that include an encoder and a decoder. The best performing
+            models
+            also connect the encoder and decoder through an attention mechanism. We propose a new simple network
+            architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and
+            convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark> recurrent or convolutional neural networks that include an
+            encoder and a decoder. The best performing models also connect the encoder and decoder through an
+            attention
+            mechanism. We propose a new simple network architecture, the Transformer, based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a decoder. The best performing models also connect the encoder and decoder
+            through
+            an attention
+            mechanism. We propose a new simple network architecture, the Transformer, based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a <mark>decoder</mark>. The best
+            performing models also connect the encoder and decoder through
+            an attention
+            mechanism. We propose a new simple network architecture, the Transformer, based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer<div class="exp">
+                &#129345;&#129345;&#129345;</div></mark>,
+            based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, dispensing with recurrence and convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract</h3>
+          <p class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, <mark>dispensing with recurrence and convolutions entirely</mark>.
+          </p>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+
+        <!-- PART 2 -->
+        <section data-auto-animate>
+          <h3>The Abstract</h3>
+          <p class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, <mark>dispensing with recurrence and convolutions entirely</mark>.
+          </p>
+          <div style="margin-top:20px" data-auto-animate-delay=0.5>
+            <hr>
+          </div>
+          <p class="text-container" data-auto-animate-delay=0.5>
+            Experiments on two machine translation tasks show these models to
+            be superior in quality while being more parallelizable and requiring significantly
+            less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-
+            to-German translation task, improving over the existing best results, including
+            ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,
+            our model establishes a new single-model state-of-the-art BLEU score of 41.8 after
+            training for 3.5 days on eight GPUs, a small fraction of the training costs of the
+            best models from the literature. We show that the Transformer generalizes well to
+            other tasks by applying it successfully to English constituency parsing both with
+            large and limited training data.
+          </p>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract</h3>
+          <p class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, <mark>dispensing with recurrence and convolutions entirely</mark>.
+          </p>
+          <div style="margin-top:20px">
+            <hr>
+          </div>
+          <p class="text-container">
+            Experiments on two machine translation tasks show these models to
+            be <mark>superior in quality</mark> while being more parallelizable and requiring significantly
+            less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-
+            to-German translation task, improving over the existing best results, including
+            ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,
+            our model establishes a new single-model state-of-the-art BLEU score of 41.8 after
+            training for 3.5 days on eight GPUs, a small fraction of the training costs of the
+            best models from the literature. We show that the Transformer generalizes well to
+            other tasks by applying it successfully to English constituency parsing both with
+            large and limited training data.
+          </p>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract</h3>
+          <p class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, <mark>dispensing with recurrence and convolutions entirely</mark>.
+          </p>
+          <div style="margin-top:20px">
+            <hr>
+          </div>
+          <p class="text-container">
+            Experiments on two machine translation tasks show these models to
+            be <mark>superior in quality</mark> while being <mark>more parallelizable</mark> and requiring
+            significantly
+            less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-
+            to-German translation task, improving over the existing best results, including
+            ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,
+            our model establishes a new single-model state-of-the-art BLEU score of 41.8 after
+            training for 3.5 days on eight GPUs, a small fraction of the training costs of the
+            best models from the literature. We show that the Transformer generalizes well to
+            other tasks by applying it successfully to English constituency parsing both with
+            large and limited training data.
+          </p>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract</h3>
+          <p class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, <mark>dispensing with recurrence and convolutions entirely</mark>.
+          </p>
+          <div style="margin-top:20px">
+            <hr>
+          </div>
+          <p class="text-container">
+            Experiments on two machine translation tasks show these models to
+            be <mark>superior in quality</mark> while being <mark>more parallelizable</mark> and <mark>requiring
+              significantly
+              less time to train.</mark> Our model achieves 28.4 BLEU on the WMT 2014 English-
+            to-German translation task, improving over the existing best results, including
+            ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,
+            our model establishes a new single-model state-of-the-art BLEU score of 41.8 after
+            training for 3.5 days on eight GPUs, a small fraction of the training costs of the
+            best models from the literature. We show that the Transformer generalizes well to
+            other tasks by applying it successfully to English constituency parsing both with
+            large and limited training data.
+          </p>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract</h3>
+          <p class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, <mark>dispensing with recurrence and convolutions entirely</mark>.
+          </p>
+          <div style="margin-top:20px">
+            <hr>
+          </div>
+          <p class="text-container">
+            Experiments on two machine translation tasks show these models to
+            be <mark>superior in quality</mark> while being <mark>more parallelizable</mark> and <mark>requiring
+              significantly less time to train.</mark> <s>Our model achieves 28.4 BLEU on the WMT 2014 English-
+              to-German translation task, improving over the existing best results, including
+              ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,
+              our model establishes a new single-model state-of-the-art BLEU score of 41.8 after
+              training for 3.5 days on eight GPUs, a small fraction of the training costs of the
+              best models from the literature. We show that the Transformer generalizes well to
+              other tasks by applying it successfully to English constituency parsing both with
+              large and limited training data.</s>
+          </p>
+        </section>
+      </section>
+
+      <!-- THE GOAL -->
+      <section>
+        <section data-auto-animate>
+          <h3>The Goal</h3>
+        </section>
+        <section data-auto-animate>
+          <h3>The Goal</h3>
+          <div style="text-align:left;">
+            <p class="fragment" style="text-align: left;"><b>A language model that's good enough to:</b></p>
+            <ul style="margin-top: -10px">
+              <li class="fragment fade-up">Answer questions</li>
+              <li class="fragment fade-up">Summarize</li>
+              <li class="fragment fade-up">Converse</li>
+              <li class="fragment fade-up">Translate</li>
+              <li class="fragment fade-up">Code</li>
+              <li class="fragment fade-up">...</li>
+            </ul>
+          </div>
+          <div style="text-align:right; margin-top:100px;">
+            <p class="fragment fade-left" style="margin-bottom: -10px;margin-right:75px;"><b>More Formally:</b>
+              Sequence-to-Sequence
+              Modeling</p>
+            <ul style="padding-top: -30px;">
+              <li class="fragment fade-left" style="margin-top:-30px;">
+                Sequence: Any data where ordering of element matters
+              </li>
+            </ul>
+          </div>
+        </section>
+      </section>
+
+      <!-- THE PROBLEMS -->
+
+      <section>
+        <section data-auto-animate>
+          <h3>The Problems</h3>
+        </section>
+        <section data-auto-animate>
+          <h3>The Problems</h3>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>The Problems</h3>
+          <div class="horizontal-container">
+            <p><b>Meaning</b></p>
+            <p><b>Generalization</b></p>
+            <p><b>Alignment</b></p>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>The Problems</h3>
+          <div class="horizontal-container">
+            <p class="active"><b>Meaning</b></p>
+            <p class="inactive"><b>Generalization</b></p>
+            <p class="inactive"><b>Alignment</b></p>
+          </div>
+          <div style="text-align: left">
+            <p style="margin-top: 40px;" class="fragment"><b>Words have many layers of connotations and meanings</b></p>
+            <ul style="margin-top: 10px;">
+              <li class="fragment"><b>Connotations:</b> "A feeling or idea that is suggested by a particular word
+                although it need not be
+                a part of the word's meaning" - Cambridge dictionary</li>
+              <ul>
+                <li class="fragment">Includes emotional and cultural associations to a word</li>
+                <li class="fragment">E.g., "home" vs "house"</li>
+              </ul>
+              <li style="margin-top: 30px;" class="fragment"><b>Meaning:</b> ...we'll get to that, but we know:</li>
+              <ul>
+                <li class="fragment">The same word may have different meaning depending on context</li>
+                <li class="fragment">Different words may have similar meaning within the same context</li>
+                <li class="fragment">E.g., "bank" as in "financial bank" vs "river bank"</li>
+              </ul>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>The Problems</h3>
+          <div class="horizontal-container">
+            <p class="inactive"><b>Meaning</b></p>
+            <p class="active"><b>Generalization</b></p>
+            <p class="inactive"><b>Alignment</b></p>
+          </div>
+          <div style="text-align: left">
+            <p style="margin-top: 40px;" class="fragment"><b>Language models need to work well with words they haven't
+                seen
+                before</b></p>
+            <ul style="margin-top: 10px;" class="fragment">
+              <li>The longer the input the more likely it is that the model have very few or none identical examples
+              </li>
+              <li style="margin-top: 30px" class="fragment">Some words or phrases are also rare but may be similar to
+                other common words
+                to still have useful
+                information, like 'cat' and 'liger'</li>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>The Problems</h3>
+          <div class="horizontal-container">
+            <p class="inactive"><b>Meaning</b></p>
+            <p class="inactive"><b>Generalization</b></p>
+            <p class="active"><b>Alignment</b></p>
+          </div>
+          <div style="text-align: left">
+            <p style="margin-top: 40px;" class="fragment"><b>Sequence-to-sequence modeling is challenging because of
+                difficulties in
+                aligning input and output of variable lengths</b></p>
+            <ul style="margin-top: 10px;">
+              <li class="fragment">Traditional prediction models work well on tasks with fixed-size input and output
+              </li>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+      </section>
+
+      <!-- MEANING -->
+      <section>
+        <section data-auto-animate>
+          <h3>The Meaning of Meaning</h3>
+        </section>
+        <section data-auto-animate>
+          <h3>The Meaning of Meaning</h3>
+          <div style="text-align: left">
+            <p style="margin-top: 40px;" class="fragment"><b>Distributional Hypothesis in Linguistics</b></p>
+            <ul style="margin-top: 10px;">
+              <li class="fragment">Words that appear in similar contexts tend to have similar meanings</li>
+            </ul>
+            <p style="margin-top: 40px;" class="fragment"><b>But what is context?</b></p>
+            <ul>
+              <li class="fragment">For now, just think of it as nearby words</li>
+              <li style="margin-top: 10px;" class="fragment">A terminology -- <b>Context Window:</b></li>
+              <ul style="margin-top: 10px;">
+                <li class="fragment">Defines the span of words around a target to be used as context</li>
+                <li style="margin-top: 10px;" class="fragment">E.g., in the sentence "The cat sat on a mat", if the
+                  window size is 2 and
+                  the target word is "cat",
+                  then the context words are "The" and "sat"</li>
+              </ul>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+      </section>
+
+      <!-- IMPORTANCE OF CONTEXT -->
+      <section>
+        <section data-auto-animate>
+          <div style="text-align: left">
+            <h3>The Importance of Context</h3>
+            <p style="margin-top: 40px;" class="fragment"><b>Context helps us better understand:</b></p>
+            <ul>
+              <li class="fragment">Nuances</li>
+              <ul style="margin-top: 10px;" class="fragment">
+                <li>E.g., "fine" as in "that's fine", or "fine dining", or sarcastic "fine!", or penalty "paid a fine"
+                </li>
+              </ul>
+              <li style="margin-top: 30px;" class="fragment">Synonyms and Related Words</b></li>
+              <ul style="margin-top: 10px;">
+                <li class="fragment">E.g., "cat" and "dog", or "cat" and "liger", or "happy" and "joyful"
+                </li>
+              </ul>
+            </ul>
+            <p style="margin-top: 40px;" class="fragment"><b>Context also helps with the problem of generalization</b>
+            </p>
+            <ul>
+              <li class="fragment">More on this later</li>
+            </ul>
+          </div>
+        </section>
+      </section>
+
+      <!-- HISTORY -->
+      <section>
+        <section data-auto-animate>
+          <h3>The History (of Solutions)</h3>
+        </section>
+        <section data-auto-animate>
+          <h3>The History (of Solutions)</h3>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>The History (of Solutions)</h3>
+          <div class="horizontal-container">
+            <p><b>Prior to 2014</b></p>
+            <p><b>2014 to 2017</b></p>
+            <p><b>2017 Onwards</b></p>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>The History (of Solutions)</h3>
+          <div class="horizontal-container">
+            <p class="active"><b>Prior to 2014</b></p>
+            <p class="inactive"><b>2014 to 2017</b></p>
+            <p class="inactive"><b>2017 Onwards</b></p>
+          </div>
+          <div style="text-align: left">
+            <p style="margin-top: 40px;" class="fragment"><b>Statistical Methods</b></p>
+            <ul style="margin-top: 10px;">
+              <li><b>Statistical Machine Translation:</b class="fragment"> Handcrafted expert rules based on linguistic
+                theories</li>
+              <li style="margin-top: 30px;" class="fragment"><b>Statistical Language Models</b> such as frequency-based
+                n-gram models
+              </li>
+              <ul style="margin-top: 10px;">
+                <li class="fragment"><em>n</em> is the context window size</li>
+                <li style="margin-top: 10px;" class="fragment">A 1-gram model == bag-of-words model</li>
+                <li style="margin-top: 10px;" class="fragment"><em>"predicts most likely word given n previous
+                    words"</em></li>
+              </ul>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>The History (of Solutions)</h3>
+          <div class="horizontal-container">
+            <p class="inactive"><b>Prior to 2014</b></p>
+            <p class="active"><b>2014 to 2017</b></p>
+            <p class="inactive"><b>2017 Onwards</b></p>
+          </div>
+          <div style="text-align: left">
+            <p style="margin-top: 40px;" class="fragment"><b>Rise of Recurrent Neural Networks</b></p>
+            <ul style="margin-top: 10px;">
+              <li class="fragment"><b>Seq2seq:</b> Introduces the encoder-decoder architecture, a breakthrough in
+                sequence-to-sequence
+                modeling</li>
+              <ul style="margin-top: 10px;">
+                <li class="fragment">Built by Ilya Sutskever et al., presented in "Sequence to sequence learning with
+                  neural networks"
+                </li>
+              </ul>
+              <li style="margin-top: 30px;" class="fragment"><b>Bahdanau Attention:</b> Introduces Attention mechanisms,
+                designed to be
+                used with seq2seq</li>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>The History (of Solutions)</h3>
+          <div class="horizontal-container">
+            <p class="inactive"><b>Prior to 2014</b></p>
+            <p class="inactive"><b>2014 to 2017</b></p>
+            <p class="active"><b>2017 Onwards</b></p>
+          </div>
+          <div style="text-align: left">
+            <p style="margin-top: 40px;" class="fragment"><b>Rise of Large Language Models</b></p>
+            <ul style="margin-top: 10px;">
+              <li class="fragment"><b>The Transformer:</b> Introduces Self-Attention, a new type of Attention Mechanism
+                as well as the
+                Transformer architecture</li>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+      </section>
+
+      <!-- THE FIRST STEP -->
+      <section>
+        <section data-auto-animate style="text-align: left">
+          <h3>The First Step in NLP</h3>
+        </section>
+        <section data-auto-animate style="text-align: left;">
+          <h3>The First Step in NLP</h3>
+          <p style="margin-top: 30px;"><b>What is the first step in any NLP task?</b> <span
+              class="fragment">Vectorization</span></p>
+          <ul>
+            <li class="fragment">Machines and mathematical operations require numerical inputs</li>
+            <li style="margin-top:10px;" class="fragment"> Turn words into a vector of numbers</li>
+            <ul style="margin-top: 10px;" class="fragment">
+              <li class="fragment">Built by Ilya Sutskever et al., presented in "Sequence to sequence learning with
+                neural networks"
+              </li>
+            </ul>
+          </ul>
+          <p style="margin-top: 30px;" class="fragment"><b>Early Techniques:</b></p>
+          <ul>
+            <li class="fragment">Bag-of-words</li>
+            <li style="margin-top: 10px;" class="fragment">TF-IDF</li>
+            <li style="margin-top: 10px;" class="fragment">Co-occurrence matrices</li>
+            <ul style="margin-top: 10px;">
+              <li class="fragment">Frequency of words appearing together in given context window</li>
+            </ul>
+          </ul>
+          <p style="margin-top: 30px;" class="fragment"><b>Solution:</b> <span class="fragment">Word Embeddings</span>
+          </p>
+          <div style="height: 700px"></div>
+        </section>
+      </section>
+
+      <!-- WORD EMBEDDINGS 1 -->
+      <section>
+        <section data-auto-animate>
+          <h3>Word Embeddings</h3>
+        </section>
+        <section data-auto-animate style="text-align: left;">
+          <h3>Word Embeddings</h3>
+          <p style="margin-top: 30px;" class="fragment"><b>Goal: </b> <span class="fragment">Vectorize in such a way
+              that the semantic
+              meaning of words are captured.</span></p>
+          <div class="two-columns">
+            <div class="col">
+
+              <ul>
+                <li class="fragment">Words with similar meanings should have similar vector representations and
+                  therefore be
+                  close to each other in the vector space </li>
+                <img class="fragment" src="assets/images/word_embedding_1.png" alt="">
+              </ul>
+            </div>
+            <div class="col">
+              <ul>
+                <li class="fragment">Example of a word embedding</li>
+                <img class="fragment" src="assets/images/word_embedding_2.png" alt="">
+                <ul style="margin-top: -25px">
+                  <li class="fragment">In reality, we won't know the features</li>
+                </ul>
+                <p style="margin-top: 30px;" class="fragment"><b>Why?</b> <span class="fragment">Solves
+                    generalization issue</span></p>
+                <li style="margin-top: -10px;" class="fragment">If the embeddings for a rare word like ‘liger’ is
+                  similar to ‘cat’, then
+                  during training/inference
+                  it will be computed similarly, therefore “sharing” parameters and computation paths.</li>
+              </ul>
+            </div>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+      </section>
+
+      <!-- WORD EMBEDDINGS 2 -->
+      <section>
+        <section data-auto-animate>
+          <h3>Word Embeddings Pt. 2</h3>
+        </section>
+        <section data-auto-animate>
+          <h3>Word Embeddings Pt. 2</h3>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>Word Embeddings Pt. 2</h3>
+          <div class="horizontal-container">
+            <p><b>How</b></p>
+            <p><b>The Good</b></p>
+            <p><b>The Bad</b></p>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>Word Embeddings Pt. 2</h3>
+          <div class="horizontal-container">
+            <p class="active"><b>How</b></p>
+            <p class="inactive"><b>The Good</b></p>
+            <p class="inactive"><b>The Bad</b></p>
+          </div>
+          <div style="text-align: left">
+            <p style="margin-top: 40px;" class="fragment"><b>How are they computed?</b></p>
+            <ul style="margin-top: 10px;">
+              <li class="fragment">Out of scope for this presentation, but they are separate trainable models on their
+                own</li>
+              <li style="margin-top: 30px;" class="fragment">E.g., the word2vec model is trained to produce similar
+                vector
+                representations for words with similar co-occurrence matrices</li>
+              <ul style="margin-top: 10px;">
+                <li class="fragment">This is also why context window size matters</li>
+                <li style="margin-top: 10px;" class="fragment">Smaller window focuses on closer words, capturing more
+                  specific
+                  relationships</li>
+                <li style="margin-top: 10px;" class="fragment">Larger window captures more general relationships</li>
+              </ul>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>Word Embeddings Pt. 2</h3>
+          <div class="horizontal-container">
+            <p class="inactive"><b>How</b></p>
+            <p class="active"><b>The Good</b></p>
+            <p class="inactive"><b>The Bad</b></p>
+          </div>
+          <div style="text-align: left">
+            <p style="margin-top: 40px;" class="fragment"><b>We can now capture semantic relationships between words</b>
+            </p>
+            <ul>
+              <li class="fragment">Since these are vectors, you can perform vector operations on them too, like "king" -
+                "man" + "woman" = "queen"</li>
+              <img src="assets/images/vector_operation.png" alt="" class="fragment"
+                style="margin-top: 15px !important; max-width: 80% !important; max-height: 50% !important; display: block; margin-left: auto; margin-right: auto;">
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>Word Embeddings Pt. 2</h3>
+          <div class="horizontal-container">
+            <p class="inactive"><b>How</b></p>
+            <p class="inactive"><b>The Good</b></p>
+            <p class="active"><b>The Bad</b></p>
+          </div>
+          <div style="text-align: left">
+            <p style="margin-top: 40px;" class="fragment">These are called <b>static</b> word embeddings, because they
+              capture only the average meaning regardless of context. Static embedding models produce the same embedding
+              for different usages of a word.</p>
+            <p style="margin-top: 40px;" class="fragment"><b>The solution?</b></p>
+            <ul style="margin-top: 10px;">
+              <li class="fragment">Need to provide context to word embeddings -- i.e., contextualized embedding</li>
+              <li style="margin-top: 10px" class="fragment">RNN perhaps? Context is all about remembering and memory
+              </li>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+      </section>
+
+      <!-- RNNs -->
+      <section>
+        <section data-auto-animate style="text-align: left;">
+          <h3>Recurrent Neural Networks</h3>
+        </section>
+        <section data-auto-animate style="text-align:left;">
+          <h3>Recurrent Neural Networks</h3>
+          <p style="margin-top: 40px;" class="fragment"><b>What's different?</b></p>
+          <ul class="fragment">
+            <li>Still a neural network with Input, Hidden, and Output layers</li>
+            <li style="margin-top: 10px" class="fragment">But, unlike Feed-Forward Networks, nodes can pass information
+              in both backward
+              and forward direction rather than just forward</li>
+            <li style="margin-top: 10px" class="fragment">Specifically designed to handle sequential data by maintaining
+              a memory of previous input and outputs, achieved through connections that form loops in the network.</li>
+          </ul>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate style="text-align:left;">
+          <h3>Recurrent Neural Networks</h3>
+          <div class="two-columns">
+            <div class="col" style="flex: 40; align-items: center; justify-content: center; display: flex;">
+              <ul>
+                <li style="margin-top: 10px">Specifically designed to handle sequential data by maintaining
+                  a memory of previous input and outputs, achieved through connections that form loops in the network.
+                </li>
+                <li class="fragment">At each timestep:</li>
+                <ul>
+                  <li class="fragment">The hidden layer receives current input + previous hidden layer's output</li>
+                  <li class="fragment">The hidden layer produces an output for this timestep + passes it to the next
+                    timestep’s hidden layer</li>
+                  <li class="fragment">Kinda like chaining multiple FFNs<sup>*</sup></li>
+                </ul>
+              </ul>
+
+            </div>
+            <div class="col" style="flex: 60;">
+              <img src="assets/images/rnn.png" alt="" style="max-width: 100% !important; max-height: 100% !important">
+              <li class="fragment">The output at each timestep can be used or discarded, which leads to these different
+                output types:</li>
+              <ul>
+                <li class="fragment"><b>Many-to-many: </b>Output at each timestep</li>
+                <li class="fragment"><b>Many-to-one: </b>A single output at the end</li>
+                <li class="fragment"><b>One-to-many: </b>A sequence from a single input</li>
+              </ul>
+            </div>
+          </div>
+          <p style="margin-top: 40px;" class="fragment"><b>But how could it be used for sequence-to-sequence
+              modeling?</b> <span class="fragment">seq2seq</span></p>
+          <div style="height: 700px"></div>
+        </section>
+      </section>
+
+      <!-- SEQ2SEQ -->
+      <section>
+        <section data-auto-animate>
+          <h3>seq2seq</h3>
+        </section>
+        <section data-auto-animate>
+          <h3>seq2seq</h3>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>seq2seq</h3>
+          <div class="horizontal-container">
+            <p><b>What</b></p>
+            <p><b>Why</b></p>
+            <p><b>How</b></p>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>seq2seq</h3>
+          <div class="horizontal-container">
+            <p class="active"><b>What</b></p>
+            <p class="inactive"><b>Why</b></p>
+            <p class="inactive"><b>How</b></p>
+          </div>
+          <div style="text-align: left">
+            <p style="margin-top: 40px;" class="fragment"><b>Introduced by Ilya Sutskever et al.</b></p>
+            <ul style="margin-top: 10px;">
+              <li class="fragment">Inventor of AlexNet</li>
+              <li style="margin-top: 10px" class="fragment">Cofounder of OpenAI
+              </li>
+            </ul>
+            <p style="margin-top: 40px;" class="fragment"><b>An adaptation to autoencoders specifically for
+                sequence-to-sequence modeling</b></p>
+            <ul style="margin-top: 10px;">
+              <li class="fragment">Autoencoders are deep neural networks that learns to approximate two functions: an
+                encoder and a decoder</li>
+              <li style="margin-top: 10px" class="fragment">Encoder transforms input data to an intermediate
+                representation
+              </li>
+              <li style="margin-top: 10px" class="fragment">Decoder reconstructs the input data from intermediate
+                representation
+              </li>
+              <li style="margin-top: 10px" class="fragment">The difference is in the decoder, rather than reconstructing
+                input we want to generate a different output
+              </li>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>seq2seq</h3>
+          <div class="horizontal-container">
+            <p class="inactive"><b>What</b></p>
+            <p class="active"><b>Why</b></p>
+            <p class="inactive"><b>How</b></p>
+          </div>
+          <div style="text-align: left">
+            <p style="margin-top: 40px;" class="fragment"><b>Improves on both the problem of meaning and variable-length
+                alignment by using RNNs (specifically LSTMs)</b>
+            </p>
+            <ul>
+              <li class="fragment">Long Short-Term Memory is a specific form of RNN that tries to balance short- and
+                long-term context through a system of gates; they decide what to keep and what to forget -- otherwise
+                RNNs tend to lose earlier information as new data arrives</li>
+              <li class="fragment">Both the encoder and decoder contains multiple LSTM layers, which adds contextual
+                information to our inputs</li>
+              <li class="fragment">Intermediate representation allows us to handle variable-length input and outputs.
+              </li>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>seq2seq</h3>
+          <div class="horizontal-container">
+            <p class="inactive"><b>What</b></p>
+            <p class="inactive"><b>Why</b></p>
+            <p class="active"><b>How</b></p>
+          </div>
+          <div style="text-align: left">
+            <div class="two-columns">
+
+              <div class="col">
+                <img src="assets/images/seqenc1.png" alt="" class="fragment">
+                <img src="assets/images/secenc2.png" alt="" class="fragment">
+              </div>
+              <div class="col">
+                <p style="margin-top: 40px;" class="fragment"><b>Encoder: </b> Processes each token in the input into a
+                  single context vector of fixed length (that hopefully capture the full meaning)
+                </p>
+                <ul>
+                  <li class="fragment">Kinda like word embedding, but for the whole sentence</li>
+                </ul>
+                <p style="margin-top: 40px;" class="fragment"><b>Decoder: </b> Takes the context vector and uses it as
+                  initial hidden state. Subsequent hidden states uses previous hidden states as input
+                </p>
+                <ul>
+                  <li class="fragment">Note: This 'hidden state' is a vector of the same size as the context vector</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+      </section>
+
+      <!-- ATTENTION -->
+      <section>
+        <section data-auto-animate>
+          <h3>Attention</h3>
+        </section>
+        <section data-auto-animate>
+          <h3>Attention</h3>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>Attention</h3>
+          <div class="horizontal-container">
+            <p><b>Motivation</b></p>
+            <p><b>How</b></p>
+            <p><b>Improvements</b></p>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>Attention</h3>
+          <div class="horizontal-container">
+            <p class="active"><b>Motivation</b></p>
+            <p class="inactive"><b>How</b></p>
+            <p class="inactive"><b>Improvements</b></p>
+          </div>
+          <div style="text-align: left">
+            <img src="assets/images/attention_motivation.png" alt="" style=" max-width: 40% !important; max-height: 20%
+              !important; display: block; margin-left: auto; margin-right: auto;">
+            <ul style="margin-top: -5px;">
+              <li class="fragment">Encoding and decoding are both sequential processes → No parallelization</li>
+              <li style="margin-top: 10px" class="fragment">A single context vector of fixed length produced by the
+                encoder is a bottleneck </li>
+              <ul>
+                <li class="fragment">Since it can only hold a limited amount of information, and all words are deemed
+                  equally important,
+                  longer sentences results in less information stored for each word </li>
+                <li class="fragment">This leads to information loss especially for longer inputs -> Long-range
+                  dependency problem</li>
+              </ul>
+            </ul>
+            <p style="margin-top: 40px;" class="fragment"><b>The Solution: </b> <span class="fragment">Attention!</span>
+            </p>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>Attention</h3>
+          <div class="horizontal-container">
+            <p class="inactive"><b>Motivation</b></p>
+            <p class="active"><b>How</b></p>
+            <p class="inactive"><b>Improvements</b></p>
+          </div>
+          <div style="text-align: left">
+            <ul>
+              <li class="fragment"><b>Idea:</b> Some parts of the input are more important than others. How about
+                letting the decoder
+                itself
+                decide which parts of the input to focus on at each step. How?</li>
+              <li class="fragment">At each decoder step, create a new context vector by:
+                <ol>
+                  <li class="fragment">Calculating attention scores:
+                    <ul>
+                      <li class="fragment">Use dot product or cosine similarity to compute attention/similarity scores
+                        between current
+                        decoder hidden state and each encoder hidden state</li>
+                    </ul>
+                  </li>
+                  <li class="fragment">Applying the softmax function:
+                    <ul>
+                      <li class="fragment">Input all of the similarity scores into a softmax layer to get the attention
+                        distribution</li>
+                    </ul>
+                  </li>
+                  <li class="fragment">Calculating weighted sum:
+                    <ul>
+                      <li class="fragment">Multiply each encoder hidden state with the softmax scores/attention
+                        distribution and sum them
+                        up. This is our final context vector ready to be used for prediction.</li>
+                    </ul>
+                  </li>
+                </ol>
+              </li>
+              <li class="fragment">Note: This is different to self-attention and Transformers!</li>
+            </ul>
+
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>Attention</h3>
+          <div class="horizontal-container">
+            <p class="inactive"><b>Motivation</b></p>
+            <p class="inactive"><b>How</b></p>
+            <p class="active"><b>Improvements</b></p>
+          </div>
+          <div style="text-align: left">
+            <p style="margin-top: 40px;" class="fragment">Now we’re no longer bottlenecked by that single context
+              vector, and the long-range dependency problem is solved<sup>*</sup>.
+            </p>
+            <ul style="margin-top: 10px;">
+              <li>
+                Sort of, there’s still the issue of the model's sequential nature preventing
+                parallelization, so as the
+                inputs grow in size this approach still may have the long-range dependency problem.
+              </li>
+            </ul>
+            <p style="margin-top: 40px;" class="fragment"><b>Solution: </b> <span
+                class="fragment">Self-Attention!</span>
+            </p>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+      </section>
+
+      <!-- TYPES OF ATTENTION -->
+      <section>
+        <section data-auto-animate>
+          <h3>Types of Attention</h3>
+        </section>
+        <section data-auto-animate>
+          <h3>Types of Attention</h3>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>Types of Attention</h3>
+          <div class="horizontal-container">
+            <p class="active"><b>Bahdanau (Addition)</b></p>
+            <p class="inactive"><b>Luong (Multiplicative)</b></p>
+            <p class="inactive"><b>Self-Attention (Scaled Dot)</b></p>
+          </div>
+          <div style="text-align: left">
+            <ul>
+              <li class="fragment">Used with RNNs / seq2seq</li>
+              <li class="fragment">At each decoding timestep, Bahdanau attention computes a compatibility score between
+                previous decoder
+                hidden state and each encoder hidden state</li>
+              <li class="fragment">Then these compatibility scores are passed to another feed-forward neural network to
+                obtain attention
+                weights</li>
+              <li class="fragment">Context vector for current decoding step is a weighted sum of all encoder hidden
+                states</li>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>Types of Attention</h3>
+          <div class="horizontal-container">
+            <p class="inactive"><b>Bahdanau (Addition)</b></p>
+            <p class="active"><b>Luong (Multiplicative)</b></p>
+            <p class="inactive"><b>Self-Attention (Scaled Dot)</b></p>
+          </div>
+          <div style="text-align: left">
+            <ul>
+              <li class="fragment">Still applied in combination with RNNs / seq2seq</li>
+              <li class="fragment">No separate neural network</li>
+              <li class="fragment">Attention score is calculated using dot product between encoder hidden state and
+                decoder hidden state
+              </li>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+        <section data-auto-animate>
+          <h3>Types of Attention</h3>
+          <div class="horizontal-container">
+            <p class="inactive"><b>Bahdanau (Addition)</b></p>
+            <p class="inactive"><b>Luong (Multiplicative)</b></p>
+            <p class="active"><b>Self-Attention (Scaled Dot)</b></p>
+          </div>
+          <div style="text-align: left">
+            <ul>
+              <li class="fragment">Used in a new architecture called the Transformer</li>
+              <li class="fragment">The Transformer forgoes RNNs entirely and replaces it only with attention mechanisms
+                <ul>
+                  <li class="fragment">No longer sequential in nature → Parallelizable!</li>
+                </ul>
+              </li>
+              <li class="fragment">Each input token is represented as query (Q), key (K), and value (V) vector</li>
+              <li class="fragment">The attention score is calculated as a dot product between the query vector of a
+                token and the key
+                vectors of all other tokens in the sequence
+                <ul>
+                  <li class="fragment">We'll explore further how this works</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div style="height: 700px"></div>
+        </section>
+      </section>
+
+      <!-- SELF-ATTENTION AND CONTEXTUAL EMBEDDINGS -->
+      <section>
+        <section data-auto-animate style="text-align:left;">
+          <h4>Self-Attention and Contextual Embeddings</h4>
+        </section>
+        <section data-auto-animate style="text-align:left;">
+          <h4>Self-Attention and Contextual Embeddings</h4>
+            <div class="two-columns">
+              <div class="col">
+                <img src="assets/images/contextual_embeddings_1.png" alt="" style="max-width: 100% !important; max-height: 100% !important">
+              </div>
+              <div class="col">
+                <ul>
+                  <li class="fragment">At its core, Self-Attention converts static word embeddings into contextual embeddings.</li>
+                  <li class="fragment">Why is it called “self”? 
+                    <ul>
+                      <li class="fragment">The model calculates attention scores for each token in the input sequence by relating it to each other element within the same input sequence without having to rely on external tokens.</li>
+                      <li class="fragment">This determines which parts are most important in a query.</li>
+                    </ul>
+                </ul>
+              </div>
+            </div>
+        </section>
+      </section>
+
+      <!-- SUMMARY -->
+      <section>
+        <section data-auto-animate style="text-align:left;">
+          <h3>Summary</h3>
+        </section>
+        <section data-auto-animate style="text-align:left;">
+          <h3>Summary</h3>
+          <ul>
+            <li class="fragment">The first step in any NLP task: Conversion of words to numbers — vectorization.</li>
+            <li class="fragment">Word frequency methods struggle to capture context.</li>
+            <li class="fragment">Static word embeddings capture only the average meaning regardless of context.</li>
+            <li class="fragment">Contextual embeddings can capture different meanings based on context.
+              <ul>
+                <li class="fragment">Previous RNN (seq2seq) based methods struggle to capture long-range dependencies,
+                  and due to the
+                  nature of RNNs can't be parallelized</li>
+                <li class="fragment">RNN + Attention somewhat solves the long-range dependency problem, but still has
+                  the parallelization
+                  problem</li>
+                <li class="fragment">CNNs solves the parallelization problem, but still has the long-range dependency
+                  problem</li>
+                <li class="fragment">Transformer + Self-Attention solves both</li>
+                <li class="fragment">Multi-head attention improves quality of results</li>
+              </ul>
+            </li>
+          </ul>
+
+        </section>
+      </section>
+
+      <!-- ABSTRACT -->
+      <section>
+        <!-- PART 1 -->
+        <section data-auto-animate>
+          <h3>The Abstract Revisited</h3>
+          <p class="text-container">
+          </p>
+        </section>
+
+        <section data-auto-animate>
+          <h3>The Abstract Revisited</h3>
+          <p class="text-container">
+            The dominant sequence transduction models are based on complex recurrent or
+            convolutional neural networks that include an encoder and a decoder. The best performing models also
+            connect
+            the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the
+            Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely.
+          </p>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> transduction models are based on complex
+            recurrent or convolutional neural networks that include an encoder and a decoder. The best performing
+            models
+            also connect the encoder and decoder through an attention mechanism. We propose a new simple network
+            architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and
+            convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <div class="text-container">
+            The dominant <mark>sequence<div class="exp">Any data that has ordering or temporal relationship between
+                elements</div></mark> transduction models are based on complex
+            recurrent or convolutional neural networks that include an encoder and a decoder. The best performing
+            models
+            also connect the encoder and decoder through an attention mechanism. We propose a new simple network
+            architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and
+            convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark> are based on complex
+            recurrent or convolutional neural networks that include an encoder and a decoder. The best performing
+            models
+            also connect the encoder and decoder through an attention mechanism. We propose a new simple network
+            architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and
+            convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models<div class="exp">Models that transform a
+                sequence to another sequence</div></mark>
+            are based on complex recurrent or convolutional neural networks that include an
+            encoder and a decoder. The best performing models also connect the encoder and decoder through an
+            attention
+            mechanism. We propose a new simple network architecture, the Transformer, based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark> recurrent or convolutional neural networks that include an
+            encoder and a decoder. The best performing models also connect the encoder and decoder through an
+            attention
+            mechanism. We propose a new simple network architecture, the Transformer, based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex<div class="exp">Big claim, we'll examine later</div></mark>
+            recurrent or convolutional neural networks that include an
+            encoder and a decoder. The best performing models also connect the encoder and decoder through an
+            attention
+            mechanism. We propose a new simple network architecture, the Transformer, based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a decoder. The best performing models also connect the encoder and decoder
+            through
+            an attention
+            mechanism. We propose a new simple network architecture, the Transformer, based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder<div class="exp">Converts input into hidden representation</div></mark> and a decoder. The
+            best
+            performing models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, the Transformer, based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a <mark>decoder</mark>. The best
+            performing models also connect the encoder and decoder through
+            an attention
+            mechanism. We propose a new simple network architecture, the Transformer, based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder<div class="exp">Converts hidden representation into output</div></mark>. The best performing
+            models also connect the encoder and decoder
+            through
+            an attention
+            mechanism. We propose a new simple network architecture, the Transformer, based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+          </div>
+          <div style="margin-top:20px"></div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer<div class="exp">
+                &#129345;&#129345;&#129345;</div></mark>,
+            based solely on attention
+            mechanisms, dispensing with recurrence and convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <div class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, dispensing with recurrence and convolutions entirely.
+          </div>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <p class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, <mark>dispensing with recurrence and convolutions entirely</mark>.
+          </p>
+          <div style="margin-top:20px"> </div>
+        </section>
+
+
+        <!-- PART 2 -->
+        <section data-auto-animate>
+          <h3>The Abstract Revisited</h3>
+          <p class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, <mark>dispensing with recurrence and convolutions entirely</mark>.
+          </p>
+          <div style="margin-top:20px" data-auto-animate-delay=0.5>
+            <hr>
+          </div>
+          <p class="text-container" data-auto-animate-delay=0.5>
+            Experiments on two machine translation tasks show these models to
+            be superior in quality while being more parallelizable and requiring significantly
+            less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-
+            to-German translation task, improving over the existing best results, including
+            ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,
+            our model establishes a new single-model state-of-the-art BLEU score of 41.8 after
+            training for 3.5 days on eight GPUs, a small fraction of the training costs of the
+            best models from the literature. We show that the Transformer generalizes well to
+            other tasks by applying it successfully to English constituency parsing both with
+            large and limited training data.
+          </p>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <p class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, <mark>dispensing with recurrence and convolutions entirely</mark>.
+          </p>
+          <div style="margin-top:20px">
+            <hr>
+          </div>
+          <p class="text-container">
+            Experiments on two machine translation tasks show these models to
+            be <mark>superior in quality</mark> while being more parallelizable and requiring significantly
+            less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-
+            to-German translation task, improving over the existing best results, including
+            ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,
+            our model establishes a new single-model state-of-the-art BLEU score of 41.8 after
+            training for 3.5 days on eight GPUs, a small fraction of the training costs of the
+            best models from the literature. We show that the Transformer generalizes well to
+            other tasks by applying it successfully to English constituency parsing both with
+            large and limited training data.
+          </p>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <p class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, <mark>dispensing with recurrence and convolutions entirely</mark>.
+          </p>
+          <div style="margin-top:20px">
+            <hr>
+          </div>
+          <p class="text-container">
+            Experiments on two machine translation tasks show these models to
+            be <mark>superior in quality</mark> while being <mark>more parallelizable</mark> and requiring
+            significantly
+            less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-
+            to-German translation task, improving over the existing best results, including
+            ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,
+            our model establishes a new single-model state-of-the-art BLEU score of 41.8 after
+            training for 3.5 days on eight GPUs, a small fraction of the training costs of the
+            best models from the literature. We show that the Transformer generalizes well to
+            other tasks by applying it successfully to English constituency parsing both with
+            large and limited training data.
+          </p>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <p class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, <mark>dispensing with recurrence and convolutions entirely</mark>.
+          </p>
+          <div style="margin-top:20px">
+            <hr>
+          </div>
+          <p class="text-container">
+            Experiments on two machine translation tasks show these models to
+            be <mark>superior in quality</mark> while being <mark>more parallelizable</mark> and <mark>requiring
+              significantly
+              less time to train.</mark> Our model achieves 28.4 BLEU on the WMT 2014 English-
+            to-German translation task, improving over the existing best results, including
+            ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,
+            our model establishes a new single-model state-of-the-art BLEU score of 41.8 after
+            training for 3.5 days on eight GPUs, a small fraction of the training costs of the
+            best models from the literature. We show that the Transformer generalizes well to
+            other tasks by applying it successfully to English constituency parsing both with
+            large and limited training data.
+          </p>
+        </section>
+
+        <section data-auto-animate data-auto-animate-unmatched="false">
+          <h3>The Abstract Revisited</h3>
+          <p class="text-container">
+            The dominant <mark>sequence</mark> <mark>transduction models</mark>
+            are based on <mark>complex</mark>
+            recurrent or convolutional neural networks that include an
+            <mark>encoder</mark> and a
+            <mark>decoder</mark>. The best performing
+            models also connect the encoder and decoder through an attention
+            mechanism. We propose a new simple network architecture, <mark>the Transformer</mark>,
+            based <mark>solely on attention
+              mechanisms</mark>, <mark>dispensing with recurrence and convolutions entirely</mark>.
+          </p>
+          <div style="margin-top:20px">
+            <hr>
+          </div>
+          <p class="text-container">
+            Experiments on two machine translation tasks show these models to
+            be <mark>superior in quality</mark> while being <mark>more parallelizable</mark> and <mark>requiring
+              significantly less time to train.</mark> <s>Our model achieves 28.4 BLEU on the WMT 2014 English-
+              to-German translation task, improving over the existing best results, including
+              ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,
+              our model establishes a new single-model state-of-the-art BLEU score of 41.8 after
+              training for 3.5 days on eight GPUs, a small fraction of the training costs of the
+              best models from the literature. We show that the Transformer generalizes well to
+              other tasks by applying it successfully to English constituency parsing both with
+              large and limited training data.</s>
+          </p>
+        </section>
+      </section>
+    </div>
+  </div>
+
+  <script src="dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+      hash: true,
+      //autoAnimateUnmatched: false,
+
+      // Learn about plugins: https://revealjs.com/plugins/
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+    });
+  </script>
+
+  <script>
+    // Randomize explanation box locations
+    document.addEventListener('DOMContentLoaded', function () {
+      const positions = ['top-left', 'top-right'];
+      const explanations = document.querySelectorAll('.exp');
+
+      // Remove and reassign positions
+      explanations.forEach(exp => {
+        positions.forEach(pos => exp.classList.remove(pos));
+        const randomPosition = positions[Math.floor(Math.random() * positions.length)];
+        exp.classList.add(randomPosition);
+      });
+    });
+  </script>
+
+</body>
+
+</html>
