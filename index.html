@@ -884,11 +884,6 @@
           <ul>
             <li class="fragment">Machines and mathematical operations require numerical inputs</li>
             <li style="margin-top:10px;" class="fragment"> Turn words into a vector of numbers</li>
-            <ul style="margin-top: 10px;" class="fragment">
-              <li class="fragment">Built by Ilya Sutskever et al., presented in "Sequence to sequence learning with
-                neural networks"
-              </li>
-            </ul>
           </ul>
           <p style="margin-top: 30px;" class="fragment"><b>Early Techniques:</b></p>
           <ul>
@@ -1382,7 +1377,7 @@
         </section>
       </section>
 
-      <!-- SELF-ATTENTION AND CONTEXTUAL EMBEDDINGS -->
+      <!-- SELF-ATTENTION AND CONTEXTUAL EMBEDDINGS 1 -->
       <section>
         <section data-auto-animate style="text-align:left;">
           <h4>Self-Attention and Contextual Embeddings</h4>
@@ -1405,6 +1400,47 @@
               </div>
             </div>
         </section>
+        <section data-auto-animate style="text-align:left;">
+          <h4>Self-Attention and Contextual Embeddings</h4>
+          <img src="assets/images/contextual_embeddings_2.png" alt="" style="max-width: 100% !important; max-height: 100% !important">
+          <p class="fragment" style="margin-top: -10px">The contextual word embedding can be calculated by performing a weighted sum of the attention scores multiplied by their static word embeddings.</p>
+            <ul>
+              <li class="fragment">On the right, a bigger portion of the meaning is derived from the word 'Apple' itself, while on the left, more of the meaning is derived from surrounding words.</li>
+            </ul>
+        </section>
+      </section>
+      
+      <!-- THE TRANSFORMER -->
+      <section>
+        <section data-auto-animate style="text-align:left;">
+          <h3>The Transformer</h3>
+        </section>
+        <section data-auto-animate style="text-align:left;">
+          <h3>The Transformer</h3>
+          <img src="assets/images/transformer_1.webp" alt="" style="margin-top: 15px !important; max-width: 60% !important; display: block; margin-left: auto; margin-right: auto;">
+        </section>
+        <section data-auto-animate style="text-align:left;">
+          <h3>The Transformer</h3>
+          <img src="assets/images/transformer_2.webp" alt="" style="margin-top: 15px !important; max-width: 70% !important; max-height: 50% !important; display: block; margin-left: auto; margin-right: auto;">
+          <p class="fragment">Still an encoder-decoder architecture, with some differences.</p>
+        </section>
+        <section data-auto-animate style="text-align:left;">
+          <h3>The Transformer</h3>
+            <div class="two-columns">
+              <div class="col">
+                <img src="assets/images/transformer_2.webp" alt="" style="display: block; margin-left: auto; margin-right: auto;">
+                <p>Still an encoder-decoder architecture, with some differences.</p>
+              </div>
+              <div class="col">
+                <ul>
+                  <li class="fragment">Rather than using LSTM modules, now the encoder and decoder only contain self-attention modules</li>
+                  <li class="fragment">Encoder uses self-attention to produce contextual embeddings</li>
+                  <li class="fragment">Decoder uses masked- and cross-attention layers to predict output</li>
+                  <li class="fragment">Positional encodings added to the input word embeddings because the transformer architecture is no longer sequential, and hence doesn’t understand each word's position in the input out-of-the-box</li>
+                </ul>
+              </div>
+            </div>
+        </section>
       </section>
 
       <!-- SUMMARY -->
@@ -1416,7 +1452,7 @@
           <h3>Summary</h3>
           <ul>
             <li class="fragment">The first step in any NLP task: Conversion of words to numbers — vectorization.</li>
-            <li class="fragment">Word frequency methods struggle to capture context.</li>
+            <li class="fragment">Frequency-based methods (earliest form of vectorization) struggle to capture context.</li>
             <li class="fragment">Static word embeddings capture only the average meaning regardless of context.</li>
             <li class="fragment">Contextual embeddings can capture different meanings based on context.
               <ul>
@@ -1426,14 +1462,10 @@
                 <li class="fragment">RNN + Attention somewhat solves the long-range dependency problem, but still has
                   the parallelization
                   problem</li>
-                <li class="fragment">CNNs solves the parallelization problem, but still has the long-range dependency
-                  problem</li>
                 <li class="fragment">Transformer + Self-Attention solves both</li>
-                <li class="fragment">Multi-head attention improves quality of results</li>
               </ul>
             </li>
           </ul>
-
         </section>
       </section>
 
