@@ -813,7 +813,7 @@
           <div style="text-align: left">
             <p style="margin-top: 40px;" class="fragment"><b>Statistical Methods</b></p>
             <ul style="margin-top: 10px;">
-              <li><b>Statistical Machine Translation:</b class="fragment"> Handcrafted expert rules based on linguistic
+              <li class="fragment"><b>Statistical Machine Translation:</b>Handcrafted expert rules based on linguistic
                 theories</li>
               <li style="margin-top: 30px;" class="fragment"><b>Statistical Language Models</b> such as frequency-based
                 n-gram models
@@ -885,7 +885,7 @@
             <li class="fragment">Machines and mathematical operations require numerical inputs</li>
             <li style="margin-top:10px;" class="fragment"> Turn words into a vector of numbers</li>
           </ul>
-          <p style="margin-top: 30px;" class="fragment"><b>Early Techniques:</b></p>
+          <p style="margin-top: 30px;" class="fragment"><b>Early Techniques:</b> Frequency-based methods</p>
           <ul>
             <li class="fragment">Bag-of-words</li>
             <li style="margin-top: 10px;" class="fragment">TF-IDF</li>
@@ -894,6 +894,7 @@
               <li class="fragment">Frequency of words appearing together in given context window</li>
             </ul>
           </ul>
+          <p style="margin-top: 30px;" class="fragment"><b>Problem:</b> <span class="fragment">Context</span>
           <p style="margin-top: 30px;" class="fragment"><b>Solution:</b> <span class="fragment">Word Embeddings</span>
           </p>
           <div style="height: 700px"></div>
@@ -1456,13 +1457,11 @@
             <li class="fragment">Static word embeddings capture only the average meaning regardless of context.</li>
             <li class="fragment">Contextual embeddings can capture different meanings based on context.
               <ul>
-                <li class="fragment">Previous RNN (seq2seq) based methods struggle to capture long-range dependencies,
-                  and due to the
-                  nature of RNNs can't be parallelized</li>
+                <li class="fragment">RNN-based methods (seq2seq) provide a single context vector representation for the whole input, but struggle to capture long-range dependencies, and due to the nature of RNNs can't be parallelized</li>
                 <li class="fragment">RNN + Attention somewhat solves the long-range dependency problem, but still has
                   the parallelization
                   problem</li>
-                <li class="fragment">Transformer + Self-Attention solves both</li>
+                <li class="fragment">Transformer + Self-Attention solves both, since self-attention provides contextual embeddings for each word simultaneously</li>
               </ul>
             </li>
           </ul>
